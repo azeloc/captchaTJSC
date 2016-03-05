@@ -1,0 +1,25 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(magrittr)
+devtools::load_all()
+
+for (i in 1:50) {
+  Sys.sleep(3)
+  try({
+    x <- baixar()
+    d <- ler(x, salvar = TRUE)
+  })
+}
+baixar() %>% decifrar()
+```
+

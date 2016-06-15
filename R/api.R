@@ -9,20 +9,16 @@
 #' @return nome do arquivo em que o mp3 foi salvo.
 #'
 #' @export
-baixar <- function(arq = NULL, link = NULL) {
-  if(is.null(link)){
-    r0 <- httr::GET('http://esaj.tjsc.jus.br/cposgtj/open.do')
-  } else {
-    r0 <- httr::GET(link)
-  }
+baixar <- function(arq = NULL, link = 'http://esaj.tjsc.jus.br/cposgtj/open.do') {
+  r0 <- httr::GET(link)
   timestamp <- V8::v8()$eval("new Date().getTime();")
-  r1 <- httr::POST('http://esaj.tjsc.jus.br/cposgtj/imagemCaptcha.do',
+  r1 <- httr::POST(link,
                    body = list('timestamp' = timestamp,
                                'uuidCaptcha' = '',
                                'conversationId' = ''))
   s <- jsonlite::fromJSON(httr::content(r1, 'text'))
   uid <- s$uuidCaptcha
-  u <- sprintf('http://esaj.tjsc.jus.br/cposgtj/somCaptcha.do?timestamp=&uuidCaptcha=%s', uid)
+  u <- sprintf('%s?timestamp=&uuidCaptcha=%s',link,uid)
   if (is.null(arq)) arq <- tempfile()
   httr::GET(u, httr::write_disk(arq, overwrite = TRUE))
   arq

@@ -9,8 +9,12 @@
 #' @return nome do arquivo em que o mp3 foi salvo.
 #'
 #' @export
-baixar <- function(arq = NULL) {
-  r0 <- httr::GET('http://esaj.tjsc.jus.br/cposgtj/open.do')
+baixar <- function(arq = NULL, link = NULL) {
+  if(is.null(link)){
+    r0 <- httr::GET('http://esaj.tjsc.jus.br/cposgtj/open.do')
+  } else {
+    r0 <- httr::GET(link)
+  }
   timestamp <- V8::v8()$eval("new Date().getTime();")
   r1 <- httr::POST('http://esaj.tjsc.jus.br/cposgtj/imagemCaptcha.do',
                    body = list('timestamp' = timestamp,

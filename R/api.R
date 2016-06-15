@@ -10,11 +10,14 @@
 #'
 #' @export
 baixar <- function(arq = NULL, link = 'http://esaj.tjsc.jus.br/cposgtj/open.do') {
-  r0 <- httr::GET(link)
-  timestamp <- V8::v8()$eval("new Date().getTime();")
-  u <- sprintf('%s?timestamp=%s',link,timestamp)
-  if (is.null(arq)) arq <- tempfile()
-  httr::GET(u, httr::write_disk(arq, overwrite = TRUE))
+
+  if(is.null(arq)){arq <- tempfile()}
+
+  rvest::html_session('http://esaj.tjsc.jus.br/cpopg/imagemCaptcha.do') %>%
+  rvest::jump_to(link) %>%
+    '$'('response') %>%
+    httr::content()  %>%
+    writeBin(arq)
   arq
 }
 
@@ -111,5 +114,15 @@ decifrar <- function(arq, deletar = TRUE) {
   paste(letras, collapse = '')
 }
 
+#' Pipe operator
+#'
+#' See \code{\link[magrittr]{\%>\%}} for more details.
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @importFrom magrittr %>%
+#' @usage lhs \%>\% rhs
+NULL
 
 

@@ -3,3 +3,4 @@
 export(baixar)
 export(decifrar)
 export(ler)
+importFrom(magrittr,"%>%")

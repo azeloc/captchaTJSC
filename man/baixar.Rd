@@ -4,7 +4,7 @@
 \alias{baixar}
 \title{Baixa um arquivo de audio mp3}
 \usage{
-baixar(arq = NULL)
+baixar(arq = NULL, link = "http://esaj.tjsc.jus.br/cposgtj/open.do")
 }
 \arguments{
 \item{arq}{character vector com um caminho para o arquivo. Se \code{NULL},

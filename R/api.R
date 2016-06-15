@@ -12,13 +12,7 @@
 baixar <- function(arq = NULL, link = 'http://esaj.tjsc.jus.br/cposgtj/open.do') {
   r0 <- httr::GET(link)
   timestamp <- V8::v8()$eval("new Date().getTime();")
-  r1 <- httr::POST(link,
-                   body = list('timestamp' = timestamp,
-                               'uuidCaptcha' = '',
-                               'conversationId' = ''))
-  s <- jsonlite::fromJSON(httr::content(r1, 'text'))
-  uid <- s$uuidCaptcha
-  u <- sprintf('%s?timestamp=&uuidCaptcha=%s',link,uid)
+  u <- sprintf('%s?timestamp=%s',link,timestamp)
   if (is.null(arq)) arq <- tempfile()
   httr::GET(u, httr::write_disk(arq, overwrite = TRUE))
   arq
